@@ -19,8 +19,17 @@ const (
 	FieldCreatedAt = "created_at"
 	// FieldUpdatedAt holds the string denoting the updated_at field in the database.
 	FieldUpdatedAt = "updated_at"
+	// EdgeTodos holds the string denoting the todos edge name in mutations.
+	EdgeTodos = "todos"
 	// Table holds the table name of the user in the database.
 	Table = "users"
+	// TodosTable is the table that holds the todos relation/edge.
+	TodosTable = "todos"
+	// TodosInverseTable is the table name for the Todo entity.
+	// It exists in this package in order to avoid circular dependency with the "todo" package.
+	TodosInverseTable = "todos"
+	// TodosColumn is the table column denoting the todos relation/edge.
+	TodosColumn = "user_id"
 )
 
 // Columns holds all SQL columns for user fields.

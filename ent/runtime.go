@@ -4,6 +4,7 @@ package ent
 
 import (
 	"golang-clean-architecture-ent-gqlgen/ent/schema"
+	"golang-clean-architecture-ent-gqlgen/ent/todo"
 	"golang-clean-architecture-ent-gqlgen/ent/user"
 	"time"
 )
@@ -12,6 +13,24 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	todoFields := schema.Todo{}.Fields()
+	_ = todoFields
+	// todoDescName is the schema descriptor for name field.
+	todoDescName := todoFields[1].Descriptor()
+	// todo.DefaultName holds the default value on creation for the name field.
+	todo.DefaultName = todoDescName.Default.(string)
+	// todoDescPriority is the schema descriptor for priority field.
+	todoDescPriority := todoFields[3].Descriptor()
+	// todo.DefaultPriority holds the default value on creation for the priority field.
+	todo.DefaultPriority = todoDescPriority.Default.(int)
+	// todoDescCreatedAt is the schema descriptor for created_at field.
+	todoDescCreatedAt := todoFields[4].Descriptor()
+	// todo.DefaultCreatedAt holds the default value on creation for the created_at field.
+	todo.DefaultCreatedAt = todoDescCreatedAt.Default.(func() time.Time)
+	// todoDescUpdatedAt is the schema descriptor for updated_at field.
+	todoDescUpdatedAt := todoFields[5].Descriptor()
+	// todo.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	todo.DefaultUpdatedAt = todoDescUpdatedAt.Default.(func() time.Time)
 	userFields := schema.User{}.Fields()
 	_ = userFields
 	// userDescName is the schema descriptor for name field.

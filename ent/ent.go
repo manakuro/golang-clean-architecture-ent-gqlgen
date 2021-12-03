@@ -5,6 +5,7 @@ package ent
 import (
 	"errors"
 	"fmt"
+	"golang-clean-architecture-ent-gqlgen/ent/todo"
 	"golang-clean-architecture-ent-gqlgen/ent/user"
 
 	"entgo.io/ent"
@@ -29,6 +30,7 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
+		todo.Table: todo.ValidColumn,
 		user.Table: user.ValidColumn,
 	}
 	check, ok := checks[table]
