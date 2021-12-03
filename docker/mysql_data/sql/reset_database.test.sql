@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS project_management_demo_test;
+CREATE DATABASE project_management_demo_test CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
