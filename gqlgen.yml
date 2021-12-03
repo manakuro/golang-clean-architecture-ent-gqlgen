@@ -53,3 +53,6 @@ models:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
       - github.com/99designs/gqlgen/graphql.Int32
+  TodoStatus:
+    model:
+      - golang-clean-architecture-ent-gqlgen/ent/todo.Status

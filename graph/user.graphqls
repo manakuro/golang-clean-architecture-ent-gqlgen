@@ -2,6 +2,7 @@ type User {
     id: ID!
     name: String!
     age: Int!
+    todos: [Todo!]!
     createdAt: String!
     updatedAt: String!
 }

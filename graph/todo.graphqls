@@ -1,0 +1,19 @@
+enum TodoStatus {
+    IN_PROGRESS
+    COMPLETED
+}
+
+type Todo {
+    id: ID!
+    name: String!
+    status: TodoStatus!
+    priority: Int!
+    userID: ID
+    createdAt: String!
+    updatedAt: String!
+}
+
+extend type Query {
+    todo(id: ID): Todo
+}
+
