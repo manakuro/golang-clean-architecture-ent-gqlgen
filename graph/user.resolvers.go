@@ -11,6 +11,22 @@ import (
 	"golang-clean-architecture-ent-gqlgen/pkg/util/datetime"
 )
 
+func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserInput) (*ent.User, error) {
+	u, err := r.client.User.Create().SetInput(input).Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
+func (r *mutationResolver) UpdateUser(ctx context.Context, input ent.UpdateUserInput) (*ent.User, error) {
+	u, err := r.client.User.UpdateOneID(input.ID).SetInput(input).Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
 func (r *queryResolver) User(ctx context.Context, id *int) (*ent.User, error) {
 	u, err := r.client.User.Query().Where(user.IDEQ(*id)).Only(ctx)
 	if err != nil {

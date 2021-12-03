@@ -7,7 +7,22 @@ type User {
     updatedAt: String!
 }
 
+input CreateUserInput {
+    name: String!
+    age: Int!
+}
+input UpdateUserInput {
+    id: ID!
+    name: String
+    age: Int
+}
+
 extend type Query {
     user(id: ID): User
 }
 
+
+extend type Mutation {
+    createUser(input: CreateUserInput!): User!
+    updateUser(input: UpdateUserInput!): User!
+}
