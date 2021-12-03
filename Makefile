@@ -11,8 +11,12 @@ install:
 setup_db:
 	./bin/init_db.sh
 
+# Migrate scheme in ent to database
+migrate_schema:
+	go run ./cmd/migration/main.go
+
 # Start dev server
 start:
 	air
 
-.PHONY: install start setup_db
+.PHONY: install start setup_db migrate_schema
