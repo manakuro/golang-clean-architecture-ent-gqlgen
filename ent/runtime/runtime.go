@@ -5,6 +5,5 @@ package runtime
 // The schema-stitching logic is generated in golang-clean-architecture-ent-gqlgen/ent/runtime.go
 
 const (
-	Version = "v0.9.1"                                          // Version of ent codegen.
-	Sum     = "h1:IG8andyeD79GG24U8Q+1Y45hQXj6gY5evSBcva5gtBk=" // Sum of ent codegen.
+	Version = "(devel)" // Version of ent codegen.
 )
