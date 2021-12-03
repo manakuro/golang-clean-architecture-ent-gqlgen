@@ -7,8 +7,12 @@ install:
 	go install golang.org/x/tools/cmd/goimports@latest
 	go install github.com/cosmtrek/air@v1.27.3
 
+# Set up database
+setup_db:
+	./bin/init_db.sh
+
 # Start dev server
 start:
 	air
 
-.PHONY: install start
+.PHONY: install start setup_db
