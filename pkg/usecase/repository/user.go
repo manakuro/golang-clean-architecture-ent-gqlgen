@@ -9,4 +9,5 @@ import (
 type User interface {
 	Get(ctx context.Context, id *int) (*model.User, error)
 	Create(ctx context.Context, input model.CreateUserInput) (*model.User, error)
+	Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error)
 }

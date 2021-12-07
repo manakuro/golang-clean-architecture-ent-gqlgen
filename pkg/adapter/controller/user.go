@@ -14,6 +14,7 @@ type user struct {
 type User interface {
 	Get(ctx context.Context, id *int) (*model.User, error)
 	Create(ctx context.Context, input model.CreateUserInput) (*model.User, error)
+	Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error)
 }
 
 // NewUserController returns user controller
@@ -27,4 +28,8 @@ func (u *user) Get(ctx context.Context, id *int) (*model.User, error) {
 
 func (u *user) Create(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 	return u.userUsecase.Create(ctx, input)
+}
+
+func (u *user) Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error) {
+	return u.userUsecase.Update(ctx, input)
 }
