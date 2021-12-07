@@ -1,4 +1,4 @@
-package graph
+package resolver
 
 // This file will be automatically regenerated based on the schema, any resolver implementations
 // will be copied through when generating and any unknown code will be moved to the end.
@@ -6,7 +6,6 @@ package graph
 import (
 	"context"
 	"golang-clean-architecture-ent-gqlgen/ent"
-	"golang-clean-architecture-ent-gqlgen/ent/user"
 	"golang-clean-architecture-ent-gqlgen/graph/generated"
 	"golang-clean-architecture-ent-gqlgen/pkg/util/datetime"
 )
@@ -28,7 +27,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input ent.UpdateUserI
 }
 
 func (r *queryResolver) User(ctx context.Context, id *int) (*ent.User, error) {
-	u, err := r.client.User.Query().Where(user.IDEQ(*id)).Only(ctx)
+	u, err := r.controller.User.Get(ctx, id)
 	if err != nil {
 		return nil, err
 	}

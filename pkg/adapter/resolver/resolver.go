@@ -1,4 +1,4 @@
-package graph
+package resolver
 
 // This file will not be regenerated automatically.
 //
@@ -7,16 +7,23 @@ package graph
 import (
 	"golang-clean-architecture-ent-gqlgen/ent"
 	"golang-clean-architecture-ent-gqlgen/graph/generated"
+	"golang-clean-architecture-ent-gqlgen/pkg/adapter/controller"
 
 	"github.com/99designs/gqlgen/graphql"
 )
 
 // Resolver is a context struct
-type Resolver struct{ client *ent.Client }
+type Resolver struct {
+	client     *ent.Client
+	controller controller.Controller
+}
 
 // NewSchema creates NewExecutableSchema
-func NewSchema(client *ent.Client) graphql.ExecutableSchema {
+func NewSchema(client *ent.Client, controller controller.Controller) graphql.ExecutableSchema {
 	return generated.NewExecutableSchema(generated.Config{
-		Resolvers: &Resolver{client},
+		Resolvers: &Resolver{
+			client:     client,
+			controller: controller,
+		},
 	})
 }
