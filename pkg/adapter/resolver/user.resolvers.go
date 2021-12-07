@@ -11,7 +11,7 @@ import (
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserInput) (*ent.User, error) {
-	u, err := r.client.User.Create().SetInput(input).Save(ctx)
+	u, err := r.controller.User.Create(ctx, input)
 	if err != nil {
 		return nil, err
 	}
@@ -19,7 +19,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserI
 }
 
 func (r *mutationResolver) UpdateUser(ctx context.Context, input ent.UpdateUserInput) (*ent.User, error) {
-	u, err := r.client.User.UpdateOneID(input.ID).SetInput(input).Save(ctx)
+	u, err := r.controller.User.Update(ctx, input)
 	if err != nil {
 		return nil, err
 	}

@@ -24,3 +24,19 @@ func (r *userRepository) Get(ctx context.Context, id *int) (*model.User, error) 
 	}
 	return u, nil
 }
+
+func (r *userRepository) Create(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
+	u, err := r.client.User.Create().SetInput(input).Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
+func (r *userRepository) Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error) {
+	u, err := r.client.User.UpdateOneID(input.ID).SetInput(input).Save(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
