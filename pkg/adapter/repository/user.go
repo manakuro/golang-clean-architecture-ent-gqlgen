@@ -25,6 +25,14 @@ func (r *userRepository) Get(ctx context.Context, id *model.ID) (*model.User, er
 	return u, nil
 }
 
+func (r *userRepository) List(ctx context.Context, after *model.Cursor, first *int, before *model.Cursor, last *int) (*model.UserConnection, error) {
+	us, err := r.client.User.Query().Paginate(ctx, after, first, before, last)
+	if err != nil {
+		return nil, err
+	}
+	return us, nil
+}
+
 func (r *userRepository) Create(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 	u, err := r.client.User.Create().SetInput(input).Save(ctx)
 	if err != nil {

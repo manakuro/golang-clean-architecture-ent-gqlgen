@@ -7,6 +7,16 @@ type User implements Node {
     updatedAt: String!
 }
 
+type UserConnection {
+    totalCount: Int!
+    pageInfo: PageInfo!
+    edges: [UserEdge]
+}
+type UserEdge {
+    node: User
+    cursor: Cursor!
+}
+
 input CreateUserInput {
     name: String!
     age: Int!
@@ -19,6 +29,7 @@ input UpdateUserInput {
 
 extend type Query {
     user(id: ID): User
+    users(after: Cursor, first: Int, before: Cursor, last: Int): UserConnection
 }
 
 
