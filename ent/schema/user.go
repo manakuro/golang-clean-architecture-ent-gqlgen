@@ -2,6 +2,7 @@ package schema
 
 import (
 	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
+	"golang-clean-architecture-ent-gqlgen/pkg/const/globalid"
 	"time"
 
 	"entgo.io/ent/schema/edge"
@@ -22,7 +23,7 @@ func (User) Fields() []ent.Field {
 		field.String("id").
 			GoType(ulid.ID("")).
 			DefaultFunc(func() ulid.ID {
-				return ulid.MustNew("")
+				return ulid.MustNew(globalid.New().User.Prefix)
 			}),
 		field.String("name").
 			NotEmpty().

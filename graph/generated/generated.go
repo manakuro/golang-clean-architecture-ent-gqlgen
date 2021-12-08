@@ -6,6 +6,7 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"golang-clean-architecture-ent-gqlgen/ent"
 	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"golang-clean-architecture-ent-gqlgen/ent/todo"
@@ -53,6 +54,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
+		Node func(childComplexity int, id ulid.ID) int
 		Todo func(childComplexity int, id *ulid.ID) int
 		User func(childComplexity int, id *ulid.ID) int
 	}
@@ -82,6 +84,7 @@ type MutationResolver interface {
 	UpdateUser(ctx context.Context, input ent.UpdateUserInput) (*ent.User, error)
 }
 type QueryResolver interface {
+	Node(ctx context.Context, id ulid.ID) (ent.Noder, error)
 	Todo(ctx context.Context, id *ulid.ID) (*ent.Todo, error)
 	User(ctx context.Context, id *ulid.ID) (*ent.User, error)
 }
@@ -132,6 +135,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(ent.UpdateUserInput)), true
+
+	case "Query.node":
+		if e.complexity.Query.Node == nil {
+			break
+		}
+
+		args, err := ec.field_Query_node_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Node(childComplexity, args["id"].(ulid.ID)), true
 
 	case "Query.todo":
 		if e.complexity.Query.Todo == nil {
@@ -312,7 +327,13 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "graph/schema.graphqls", Input: `type Query
+	{Name: "graph/schema.graphqls", Input: `interface Node {
+    id: ID!
+}
+
+type Query {
+    node(id: ID!): Node
+}
 
 type Mutation
 `, BuiltIn: false},
@@ -336,7 +357,7 @@ extend type Query {
 }
 
 `, BuiltIn: false},
-	{Name: "graph/user.graphqls", Input: `type User {
+	{Name: "graph/user.graphqls", Input: `type User implements Node {
     id: ID!
     name: String!
     age: Int!
@@ -414,6 +435,21 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_node_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 ulid.ID
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2golangᚑcleanᚑarchitectureᚑentᚑgqlgenᚋentᚋschemaᚋulidᚐID(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -567,6 +603,45 @@ func (ec *executionContext) _Mutation_updateUser(ctx context.Context, field grap
 	res := resTmp.(*ent.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖgolangᚑcleanᚑarchitectureᚑentᚑgqlgenᚋentᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_node(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_node_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().Node(rctx, args["id"].(ulid.ID))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(ent.Noder)
+	fc.Result = res
+	return ec.marshalONode2golangᚑcleanᚑarchitectureᚑentᚑgqlgenᚋentᚐNoder(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_todo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2366,6 +2441,20 @@ func (ec *executionContext) unmarshalInputUpdateUserInput(ctx context.Context, o
 
 // region    ************************** interface.gotpl ***************************
 
+func (ec *executionContext) _Node(ctx context.Context, sel ast.SelectionSet, obj ent.Noder) graphql.Marshaler {
+	switch obj := (obj).(type) {
+	case nil:
+		return graphql.Null
+	case *ent.User:
+		if obj == nil {
+			return graphql.Null
+		}
+		return ec._User(ctx, sel, obj)
+	default:
+		panic(fmt.Errorf("unexpected type %T", obj))
+	}
+}
+
 // endregion ************************** interface.gotpl ***************************
 
 // region    **************************** object.gotpl ****************************
@@ -2421,6 +2510,17 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
+		case "node":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_node(ctx, field)
+				return res
+			})
 		case "todo":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -2530,7 +2630,7 @@ func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
-var userImplementors = []string{"User"}
+var userImplementors = []string{"User", "Node"}
 
 func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj *ent.User) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, userImplementors)
@@ -3322,6 +3422,13 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 		return graphql.Null
 	}
 	return graphql.MarshalInt(*v)
+}
+
+func (ec *executionContext) marshalONode2golangᚑcleanᚑarchitectureᚑentᚑgqlgenᚋentᚐNoder(ctx context.Context, sel ast.SelectionSet, v ent.Noder) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._Node(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {
