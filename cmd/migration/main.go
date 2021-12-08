@@ -25,6 +25,7 @@ func createDBSchema(client *ent.Client) {
 		context.Background(),
 		migrate.WithDropIndex(true),
 		migrate.WithDropColumn(true),
+		migrate.WithForeignKeys(true),
 	); err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}

@@ -6,6 +6,7 @@ package resolver
 import (
 	"context"
 	"golang-clean-architecture-ent-gqlgen/ent"
+	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"golang-clean-architecture-ent-gqlgen/graph/generated"
 	"golang-clean-architecture-ent-gqlgen/pkg/util/datetime"
 )
@@ -26,7 +27,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input ent.UpdateUserI
 	return u, nil
 }
 
-func (r *queryResolver) User(ctx context.Context, id *int) (*ent.User, error) {
+func (r *queryResolver) User(ctx context.Context, id *ulid.ID) (*ent.User, error) {
 	u, err := r.controller.User.Get(ctx, id)
 	if err != nil {
 		return nil, err

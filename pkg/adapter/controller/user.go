@@ -12,7 +12,7 @@ type user struct {
 
 // User of interface
 type User interface {
-	Get(ctx context.Context, id *int) (*model.User, error)
+	Get(ctx context.Context, id *model.ID) (*model.User, error)
 	Create(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error)
 }
@@ -22,7 +22,7 @@ func NewUserController(uu usecase.User) User {
 	return &user{userUsecase: uu}
 }
 
-func (u *user) Get(ctx context.Context, id *int) (*model.User, error) {
+func (u *user) Get(ctx context.Context, id *model.ID) (*model.User, error) {
 	return u.userUsecase.Get(ctx, id)
 }
 

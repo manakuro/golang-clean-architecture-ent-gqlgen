@@ -1,6 +1,7 @@
 package schema
 
 import (
+	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"time"
 
 	"entgo.io/ent"
@@ -17,7 +18,14 @@ type Todo struct {
 // Fields of the Todo.
 func (Todo) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int("user_id").Optional(),
+		field.String("id").
+			GoType(ulid.ID("")).
+			DefaultFunc(func() ulid.ID {
+				return ulid.MustNew("")
+			}),
+		field.String("user_id").
+			GoType(ulid.ID("")).
+			Optional(),
 		field.String("name").Default(""),
 		field.Enum("status").
 			NamedValues(

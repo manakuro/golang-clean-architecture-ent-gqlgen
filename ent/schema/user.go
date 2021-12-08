@@ -1,6 +1,7 @@
 package schema
 
 import (
+	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"time"
 
 	"entgo.io/ent/schema/edge"
@@ -18,6 +19,11 @@ type User struct {
 // Fields of the User.
 func (User) Fields() []ent.Field {
 	return []ent.Field{
+		field.String("id").
+			GoType(ulid.ID("")).
+			DefaultFunc(func() ulid.ID {
+				return ulid.MustNew("")
+			}),
 		field.String("name").
 			NotEmpty().
 			MaxLen(255),

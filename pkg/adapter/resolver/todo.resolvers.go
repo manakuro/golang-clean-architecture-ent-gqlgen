@@ -6,12 +6,13 @@ package resolver
 import (
 	"context"
 	"golang-clean-architecture-ent-gqlgen/ent"
+	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"golang-clean-architecture-ent-gqlgen/ent/todo"
 	"golang-clean-architecture-ent-gqlgen/graph/generated"
 	"golang-clean-architecture-ent-gqlgen/pkg/util/datetime"
 )
 
-func (r *queryResolver) Todo(ctx context.Context, id *int) (*ent.Todo, error) {
+func (r *queryResolver) Todo(ctx context.Context, id *ulid.ID) (*ent.Todo, error) {
 	u, err := r.client.Todo.Query().Where(todo.IDEQ(*id)).Only(ctx)
 	if err != nil {
 		return nil, err

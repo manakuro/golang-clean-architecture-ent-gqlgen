@@ -4,6 +4,7 @@ package todo
 
 import (
 	"golang-clean-architecture-ent-gqlgen/ent/predicate"
+	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -11,28 +12,28 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.Todo {
+func ID(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.Todo {
+func IDEQ(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.Todo {
+func IDNEQ(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldID), id))
 	})
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.Todo {
+func IDIn(ids ...ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		// if not arguments were provided, append the FALSE constants,
 		// since we can't apply "IN ()". This will make this predicate falsy.
@@ -49,7 +50,7 @@ func IDIn(ids ...int) predicate.Todo {
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.Todo {
+func IDNotIn(ids ...ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		// if not arguments were provided, append the FALSE constants,
 		// since we can't apply "IN ()". This will make this predicate falsy.
@@ -66,35 +67,35 @@ func IDNotIn(ids ...int) predicate.Todo {
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.Todo {
+func IDGT(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldID), id))
 	})
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.Todo {
+func IDGTE(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldID), id))
 	})
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.Todo {
+func IDLT(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldID), id))
 	})
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.Todo {
+func IDLTE(id ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldID), id))
 	})
 }
 
 // UserID applies equality check predicate on the "user_id" field. It's identical to UserIDEQ.
-func UserID(v int) predicate.Todo {
+func UserID(v ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldUserID), v))
 	})
@@ -129,21 +130,21 @@ func UpdatedAt(v time.Time) predicate.Todo {
 }
 
 // UserIDEQ applies the EQ predicate on the "user_id" field.
-func UserIDEQ(v int) predicate.Todo {
+func UserIDEQ(v ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldUserID), v))
 	})
 }
 
 // UserIDNEQ applies the NEQ predicate on the "user_id" field.
-func UserIDNEQ(v int) predicate.Todo {
+func UserIDNEQ(v ulid.ID) predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldUserID), v))
 	})
 }
 
 // UserIDIn applies the In predicate on the "user_id" field.
-func UserIDIn(vs ...int) predicate.Todo {
+func UserIDIn(vs ...ulid.ID) predicate.Todo {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -160,7 +161,7 @@ func UserIDIn(vs ...int) predicate.Todo {
 }
 
 // UserIDNotIn applies the NotIn predicate on the "user_id" field.
-func UserIDNotIn(vs ...int) predicate.Todo {
+func UserIDNotIn(vs ...ulid.ID) predicate.Todo {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -176,6 +177,58 @@ func UserIDNotIn(vs ...int) predicate.Todo {
 	})
 }
 
+// UserIDGT applies the GT predicate on the "user_id" field.
+func UserIDGT(v ulid.ID) predicate.Todo {
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDGTE applies the GTE predicate on the "user_id" field.
+func UserIDGTE(v ulid.ID) predicate.Todo {
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDLT applies the LT predicate on the "user_id" field.
+func UserIDLT(v ulid.ID) predicate.Todo {
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDLTE applies the LTE predicate on the "user_id" field.
+func UserIDLTE(v ulid.ID) predicate.Todo {
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUserID), v))
+	})
+}
+
+// UserIDContains applies the Contains predicate on the "user_id" field.
+func UserIDContains(v ulid.ID) predicate.Todo {
+	vc := string(v)
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldUserID), vc))
+	})
+}
+
+// UserIDHasPrefix applies the HasPrefix predicate on the "user_id" field.
+func UserIDHasPrefix(v ulid.ID) predicate.Todo {
+	vc := string(v)
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldUserID), vc))
+	})
+}
+
+// UserIDHasSuffix applies the HasSuffix predicate on the "user_id" field.
+func UserIDHasSuffix(v ulid.ID) predicate.Todo {
+	vc := string(v)
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldUserID), vc))
+	})
+}
+
 // UserIDIsNil applies the IsNil predicate on the "user_id" field.
 func UserIDIsNil() predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
@@ -187,6 +240,22 @@ func UserIDIsNil() predicate.Todo {
 func UserIDNotNil() predicate.Todo {
 	return predicate.Todo(func(s *sql.Selector) {
 		s.Where(sql.NotNull(s.C(FieldUserID)))
+	})
+}
+
+// UserIDEqualFold applies the EqualFold predicate on the "user_id" field.
+func UserIDEqualFold(v ulid.ID) predicate.Todo {
+	vc := string(v)
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldUserID), vc))
+	})
+}
+
+// UserIDContainsFold applies the ContainsFold predicate on the "user_id" field.
+func UserIDContainsFold(v ulid.ID) predicate.Todo {
+	vc := string(v)
+	return predicate.Todo(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldUserID), vc))
 	})
 }
 

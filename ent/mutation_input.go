@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"golang-clean-architecture-ent-gqlgen/ent/todo"
 	"time"
 )
@@ -14,7 +15,7 @@ type CreateTodoInput struct {
 	Priority  *int
 	CreatedAt *time.Time
 	UpdatedAt *time.Time
-	UserID    *int
+	UserID    *ulid.ID
 }
 
 // Mutate applies the CreateTodoInput on the TodoCreate builder.
@@ -47,11 +48,11 @@ func (c *TodoCreate) SetInput(i CreateTodoInput) *TodoCreate {
 
 // UpdateTodoInput represents a mutation input for updating todos.
 type UpdateTodoInput struct {
-	ID        int
+	ID        ulid.ID
 	Name      *string
 	Status    *todo.Status
 	Priority  *int
-	UserID    *int
+	UserID    *ulid.ID
 	ClearUser bool
 }
 
@@ -92,7 +93,7 @@ type CreateUserInput struct {
 	Age       int
 	CreatedAt *time.Time
 	UpdatedAt *time.Time
-	TodoIDs   []int
+	TodoIDs   []ulid.ID
 }
 
 // Mutate applies the CreateUserInput on the UserCreate builder.
@@ -118,11 +119,11 @@ func (c *UserCreate) SetInput(i CreateUserInput) *UserCreate {
 
 // UpdateUserInput represents a mutation input for updating users.
 type UpdateUserInput struct {
-	ID            int
+	ID            ulid.ID
 	Name          *string
 	Age           *int
-	AddTodoIDs    []int
-	RemoveTodoIDs []int
+	AddTodoIDs    []ulid.ID
+	RemoveTodoIDs []ulid.ID
 }
 
 // Mutate applies the UpdateUserInput on the UserMutation.

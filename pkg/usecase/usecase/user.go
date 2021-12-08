@@ -12,7 +12,7 @@ type user struct {
 
 // User of usecase.
 type User interface {
-	Get(ctx context.Context, id *int) (*model.User, error)
+	Get(ctx context.Context, id *model.ID) (*model.User, error)
 	Create(ctx context.Context, input model.CreateUserInput) (*model.User, error)
 	Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error)
 }
@@ -22,7 +22,7 @@ func NewUserUsecase(r repository.User) User {
 	return &user{userRepository: r}
 }
 
-func (u *user) Get(ctx context.Context, id *int) (*model.User, error) {
+func (u *user) Get(ctx context.Context, id *model.ID) (*model.User, error) {
 	return u.userRepository.Get(ctx, id)
 }
 
