@@ -29,7 +29,7 @@ input UpdateUserInput {
 
 extend type Query {
     user(id: ID): User
-    users(after: Cursor, first: Int, before: Cursor, last: Int): UserConnection
+    users(after: Cursor, first: Int, before: Cursor, last: Int, where: UserWhereInput): UserConnection
 }
 
 

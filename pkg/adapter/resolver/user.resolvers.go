@@ -35,8 +35,8 @@ func (r *queryResolver) User(ctx context.Context, id *ulid.ID) (*ent.User, error
 	return u, nil
 }
 
-func (r *queryResolver) Users(ctx context.Context, after *ent.Cursor, first *int, before *ent.Cursor, last *int) (*ent.UserConnection, error) {
-	us, err := r.controller.User.List(ctx, after, first, before, last)
+func (r *queryResolver) Users(ctx context.Context, after *ent.Cursor, first *int, before *ent.Cursor, last *int, where *ent.UserWhereInput) (*ent.UserConnection, error) {
+	us, err := r.controller.User.List(ctx, after, first, before, last, where)
 	if err != nil {
 		return nil, err
 	}

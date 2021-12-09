@@ -1,4 +1,5 @@
 scalar Cursor
+scalar Time
 
 type PageInfo {
     hasNextPage: Boolean!

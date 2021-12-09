@@ -25,8 +25,11 @@ func (r *userRepository) Get(ctx context.Context, id *model.ID) (*model.User, er
 	return u, nil
 }
 
-func (r *userRepository) List(ctx context.Context, after *model.Cursor, first *int, before *model.Cursor, last *int) (*model.UserConnection, error) {
-	us, err := r.client.User.Query().Paginate(ctx, after, first, before, last)
+func (r *userRepository) List(ctx context.Context, after *model.Cursor, first *int, before *model.Cursor, last *int, where *model.UserWhereInput) (*model.UserConnection, error) {
+	us, err := r.client.
+		User.
+		Query().
+		Paginate(ctx, after, first, before, last, ent.WithUserFilter(where.Filter))
 	if err != nil {
 		return nil, err
 	}
