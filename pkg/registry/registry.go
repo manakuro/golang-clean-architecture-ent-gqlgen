@@ -25,5 +25,6 @@ func New(client *ent.Client) Registry {
 func (r *registry) NewController() controller.Controller {
 	return controller.Controller{
 		User: r.NewUserController(),
+		Todo: r.NewTodoController(),
 	}
 }

@@ -12,8 +12,26 @@ type Todo {
     createdAt: String!
     updatedAt: String!
 }
-
-extend type Query {
-    todo(id: ID): Todo
+input CreateTodoInput {
+    name: String!
+    status: TodoStatus = IN_PROGRESS
+    priority: Int!
+    userID: ID!
+}
+input UpdateTodoInput {
+    id: ID!
+    name: String
+    status: TodoStatus
+    priority: Int
+    userID: ID
 }
 
+extend type Query {
+    Todo(id: ID): Todo
+    Todos: [Todo!]!
+}
+
+extend type Mutation {
+    createTodo(input: CreateTodoInput!): Todo!
+    updateTodo(input: UpdateTodoInput!): Todo!
+}

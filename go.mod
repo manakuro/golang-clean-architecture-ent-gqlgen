@@ -6,12 +6,14 @@ require (
 	entgo.io/contrib v0.2.0
 	entgo.io/ent v0.9.2-0.20210821141344-368a8f7a2e9a
 	github.com/99designs/gqlgen v0.14.0
+	github.com/gavv/httpexpect/v2 v2.3.1
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/labstack/echo/v4 v4.6.1
 	github.com/oklog/ulid/v2 v2.0.2
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.9.0
+	github.com/stretchr/testify v1.7.0
 	github.com/vektah/gqlparser/v2 v2.2.0
 	github.com/vmihailenco/msgpack/v5 v5.0.0-beta.9
 )
@@ -23,7 +25,6 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/fatih/structs v1.0.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
-	github.com/gavv/httpexpect/v2 v2.3.1 // indirect
 	github.com/go-openapi/inflect v0.19.0 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
@@ -47,7 +48,6 @@ require (
 	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/subosito/gotenv v1.2.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.27.0 // indirect
