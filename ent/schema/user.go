@@ -1,47 +1,33 @@
 package schema
 
 import (
-	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
+	"golang-clean-architecture-ent-gqlgen/ent/mixin"
 	"golang-clean-architecture-ent-gqlgen/pkg/const/globalid"
-	"time"
 
 	"entgo.io/ent/schema/edge"
 
 	"entgo.io/ent"
-	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/field"
+	entMixin "entgo.io/ent/schema/mixin"
 )
 
-// User holds the schema definition for the User entity.
+// User holds the schema definition for the Test entity.
 type User struct {
 	ent.Schema
 }
 
+// UserMixin defines Fields
+type UserMixin struct {
+	entMixin.Schema
+}
+
 // Fields of the User.
-func (User) Fields() []ent.Field {
+func (UserMixin) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("id").
-			GoType(ulid.ID("")).
-			DefaultFunc(func() ulid.ID {
-				return ulid.MustNew(globalid.New().User.Prefix)
-			}),
 		field.String("name").
 			NotEmpty().
 			MaxLen(255),
-		field.Int("age").
-			Positive(),
-		field.Time("created_at").
-			Default(time.Now).
-			SchemaType(map[string]string{
-				dialect.MySQL: "datetime DEFAULT CURRENT_TIMESTAMP",
-			}).
-			Immutable(),
-		field.Time("updated_at").
-			Default(time.Now).
-			SchemaType(map[string]string{
-				dialect.MySQL: "datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-			}).
-			Immutable(),
+		field.Int("age").Positive(),
 	}
 }
 
@@ -49,5 +35,14 @@ func (User) Fields() []ent.Field {
 func (User) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("todos", Todo.Type),
+	}
+}
+
+// Mixin of the User.
+func (User) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		mixin.NewUlid(globalid.New().User.Prefix),
+		UserMixin{},
+		mixin.NewDatetime(),
 	}
 }

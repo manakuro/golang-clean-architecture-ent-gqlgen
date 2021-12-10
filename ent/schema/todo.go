@@ -1,13 +1,14 @@
 package schema
 
 import (
+	"golang-clean-architecture-ent-gqlgen/ent/mixin"
 	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"golang-clean-architecture-ent-gqlgen/pkg/const/globalid"
-	"time"
+
+	"entgo.io/ent/schema/edge"
+	entMixin "entgo.io/ent/schema/mixin"
 
 	"entgo.io/ent"
-	"entgo.io/ent/dialect"
-	"entgo.io/ent/schema/edge"
 	"entgo.io/ent/schema/field"
 )
 
@@ -16,14 +17,14 @@ type Todo struct {
 	ent.Schema
 }
 
+// TodoMixin defines Fields
+type TodoMixin struct {
+	entMixin.Schema
+}
+
 // Fields of the Todo.
-func (Todo) Fields() []ent.Field {
+func (TodoMixin) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("id").
-			GoType(ulid.ID("")).
-			DefaultFunc(func() ulid.ID {
-				return ulid.MustNew(globalid.New().Todo.Prefix)
-			}),
 		field.String("user_id").
 			GoType(ulid.ID("")).
 			Optional(),
@@ -35,18 +36,6 @@ func (Todo) Fields() []ent.Field {
 			).
 			Default("IN_PROGRESS"),
 		field.Int("priority").Default(0),
-		field.Time("created_at").
-			Default(time.Now).
-			SchemaType(map[string]string{
-				dialect.MySQL: "datetime DEFAULT CURRENT_TIMESTAMP",
-			}).
-			Immutable(),
-		field.Time("updated_at").
-			Default(time.Now).
-			SchemaType(map[string]string{
-				dialect.MySQL: "datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-			}).
-			Immutable(),
 	}
 }
 
@@ -57,5 +46,14 @@ func (Todo) Edges() []ent.Edge {
 			Ref("todos").
 			Unique().
 			Field("user_id"),
+	}
+}
+
+// Mixin of the Todo.
+func (Todo) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		mixin.NewUlid(globalid.New().Todo.Prefix),
+		TodoMixin{},
+		mixin.NewDatetime(),
 	}
 }
