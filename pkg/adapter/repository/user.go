@@ -44,6 +44,29 @@ func (r *userRepository) Create(ctx context.Context, input model.CreateUserInput
 	return u, nil
 }
 
+func (r *userRepository) CreateWithTodo(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
+	client := WithTransactionalMutation(ctx)
+
+	todo, err := client.
+		Todo.
+		Create().
+		Save(ctx)
+	if err != nil {
+		return nil, model.NewDBError(err)
+	}
+
+	u, err := client.User.
+		Create().
+		SetInput(input).
+		AddTodos(todo).
+		Save(ctx)
+	if err != nil {
+		return nil, model.NewDBError(err)
+	}
+
+	return u, nil
+}
+
 func (r *userRepository) Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error) {
 	u, err := r.client.User.UpdateOneID(input.ID).SetInput(input).Save(ctx)
 	if err != nil {

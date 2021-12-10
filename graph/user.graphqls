@@ -35,5 +35,6 @@ extend type Query {
 
 extend type Mutation {
     createUser(input: CreateUserInput!): User!
+    createUserWithTodo(input: CreateUserInput!): User!
     updateUser(input: UpdateUserInput!): User!
 }
