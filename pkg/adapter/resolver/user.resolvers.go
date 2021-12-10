@@ -31,7 +31,7 @@ func (r *mutationResolver) CreateUserWithTodo(ctx context.Context, input ent.Cre
 func (r *mutationResolver) UpdateUser(ctx context.Context, input ent.UpdateUserInput) (*ent.User, error) {
 	u, err := r.controller.User.Update(ctx, input)
 	if err != nil {
-		return nil, err
+		return nil, handler.HandleError(ctx, err)
 	}
 	return u, nil
 }
@@ -39,7 +39,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input ent.UpdateUserI
 func (r *queryResolver) User(ctx context.Context, id *ulid.ID) (*ent.User, error) {
 	u, err := r.controller.User.Get(ctx, id)
 	if err != nil {
-		return nil, err
+		return nil, handler.HandleError(ctx, err)
 	}
 	return u, nil
 }
@@ -47,7 +47,7 @@ func (r *queryResolver) User(ctx context.Context, id *ulid.ID) (*ent.User, error
 func (r *queryResolver) Users(ctx context.Context, after *ent.Cursor, first *int, before *ent.Cursor, last *int, where *ent.UserWhereInput) (*ent.UserConnection, error) {
 	us, err := r.controller.User.List(ctx, after, first, before, last, where)
 	if err != nil {
-		return nil, err
+		return nil, handler.HandleError(ctx, err)
 	}
 	return us, nil
 }
