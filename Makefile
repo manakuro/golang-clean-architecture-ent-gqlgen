@@ -19,4 +19,8 @@ migrate_schema:
 start:
 	air
 
-.PHONY: install start setup_db migrate_schema
+# Testing
+setup_test_db:
+	./bin/init_db_test.sh
+
+.PHONY: install start setup_db migrate_schema setup_test_db
