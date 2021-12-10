@@ -39,7 +39,7 @@ func (r *userRepository) List(ctx context.Context, after *model.Cursor, first *i
 func (r *userRepository) Create(ctx context.Context, input model.CreateUserInput) (*model.User, error) {
 	u, err := r.client.User.Create().SetInput(input).Save(ctx)
 	if err != nil {
-		return nil, err
+		return nil, model.NewDBError(err)
 	}
 	return u, nil
 }
@@ -47,7 +47,7 @@ func (r *userRepository) Create(ctx context.Context, input model.CreateUserInput
 func (r *userRepository) Update(ctx context.Context, input model.UpdateUserInput) (*model.User, error) {
 	u, err := r.client.User.UpdateOneID(input.ID).SetInput(input).Save(ctx)
 	if err != nil {
-		return nil, err
+		return nil, model.NewDBError(err)
 	}
 	return u, nil
 }

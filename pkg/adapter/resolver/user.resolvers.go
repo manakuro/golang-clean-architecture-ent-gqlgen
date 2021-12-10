@@ -8,13 +8,14 @@ import (
 	"golang-clean-architecture-ent-gqlgen/ent"
 	"golang-clean-architecture-ent-gqlgen/ent/schema/ulid"
 	"golang-clean-architecture-ent-gqlgen/graph/generated"
+	"golang-clean-architecture-ent-gqlgen/pkg/adapter/handler"
 	"golang-clean-architecture-ent-gqlgen/pkg/util/datetime"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input ent.CreateUserInput) (*ent.User, error) {
 	u, err := r.controller.User.Create(ctx, input)
 	if err != nil {
-		return nil, err
+		return nil, handler.HandleError(ctx, err)
 	}
 	return u, nil
 }
